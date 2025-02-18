@@ -33,7 +33,7 @@ resource "aws_iam_role" "ECSTaskExecutionRole" {
     ]
   })
 
-  tags = local.tags
+  #tags = local.tags
 }
 
 #------------------------------------------------------------------------------
@@ -113,7 +113,7 @@ resource "aws_security_group" "fargate_container_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = local.tags
+  #tags = local.tags
 }
 
 resource "aws_security_group" "ecs_tasks" {
@@ -158,8 +158,8 @@ module "ecs-cluster" {
   source  = "cn-terraform/ecs-cluster/aws"
   version = "1.0.10"
 
-  name              = "${var.environment}-${var.name}"
-  tags              = local.tags
+  name = "${var.environment}-${var.name}"
+  #tags              = local.tags
   containerInsights = var.containerInsights
 }
 

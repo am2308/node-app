@@ -5,6 +5,12 @@ variable "project" {
   type    = string
   default = "demo"
 }
+
+variable "name" {
+  type    = string
+  default = "node-app"
+}
+
 variable "env" {
   type    = string
   default = "test"
