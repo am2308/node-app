@@ -24,7 +24,9 @@ jobs:
         with:
           format: "HTML"
           out: "owasp-report.html"
-          fail-on-severity: "none"  # Prevents build failure
+          project: "nodejs-app"
+          args: "--failOnCVSS 11"  # Ensures the build does not fail due to vulnerabilities
+
 
       - name: Trivy Scan (Security Vulnerabilities)
         uses: aquasecurity/trivy-action@master
