@@ -31,3 +31,8 @@ variable "private_subnet_1_cidr" {
 variable "private_subnet_2_cidr" {
   description = "CIDR Block for Private Subnet 2"
 }
+
+variable "common_tags" {
+  description = "Common tags"
+  type        = map(string)
+}

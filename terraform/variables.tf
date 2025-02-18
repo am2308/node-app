@@ -134,3 +134,28 @@ variable "URL" {
 variable "secret_arn" {
   type = string
 }
+
+#------------------------------------------------------------------------------
+# KMS Variables
+#------------------------------------------------------------------------------
+
+variable "alias" {
+  description = "Alias for the KMS key"
+  type        = string
+  default     = "alias/aws/cw"
+}
+
+variable "common_tags" {
+  description = "Common tags to be applied to all resources"
+  type        = map(string)
+  default = {
+    Name        = "node-app"
+    Environment = "test"
+    Project     = "hire"
+    Owner       = "Data Engineering Team"
+    CostCenter  = "12345"
+    Department  = "Engineering"
+    ManagedBy   = "Terraform"
+    CreatedBy   = "GitHub Actions"
+  }
+}

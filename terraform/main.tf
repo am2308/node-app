@@ -1,3 +1,4 @@
+data "aws_caller_identity" "current" {}
 module "vpc" {
   source = "./modules/vpc"
 
@@ -9,6 +10,16 @@ module "vpc" {
   public_subnet_1_cidr  = var.public_subnet_1_cidr
   public_subnet_2_cidr  = var.public_subnet_2_cidr
   vpc_cidr              = var.vpc_cidr
+  common_tags           = var.common_tags
+}
+
+module "kms" {
+  source         = "./modules/kms"
+  environment    = var.env
+  common_tags    = var.common_tags
+  aws_account_id = data.aws_caller_identity.current.account_id
+  alias          = var.alias
+  region         = var.region
 }
 
 module "ecs" {
@@ -34,5 +45,7 @@ module "ecs" {
   private_subnets                                = module.vpc.private_subnet_ids
   URL                                            = var.URL
   secret_arn                                     = var.secret_arn
+  kms_key_id                                     = module.kms.kms_key_id
+  common_tags                                    = var.common_tags
 }
 

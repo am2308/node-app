@@ -1,15 +1,12 @@
 #------------------------------------------------------------------------------
 # AWS Cloudwatch Logs
 #------------------------------------------------------------------------------
-module "aws_cw_logs" {
-  source  = "cn-terraform/cloudwatch-logs/aws"
-  version = "1.0.12"
-  # source  = "../terraform-aws-cloudwatch-logs"
 
-  create_kms_key              = var.create_kms_key
-  log_group_kms_key_id        = var.log_group_kms_key_id
-  log_group_retention_in_days = var.log_group_retention_in_days
-  logs_path                   = "/ecs/service/${var.environment}-${var.name}"
+resource "aws_cloudwatch_log_group" "lambda_log_group" {
+  name              = "/ecs/service/${var.environment}-${var.name}"
+  retention_in_days = 30
+  kms_key_id        = var.kms_key_id
+  tags              = var.common_tags
 }
 
 #------------------------------------------------------------------------------
@@ -33,7 +30,7 @@ resource "aws_iam_role" "ECSTaskExecutionRole" {
     ]
   })
 
-  #tags = local.tags
+  tags = var.common_tags
 }
 
 #------------------------------------------------------------------------------
@@ -113,7 +110,7 @@ resource "aws_security_group" "fargate_container_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  #tags = local.tags
+  tags = var.common_tags
 }
 
 resource "aws_security_group" "ecs_tasks" {
@@ -134,6 +131,7 @@ resource "aws_security_group" "ecs_tasks" {
     to_port     = 0
     cidr_blocks = ["0.0.0.0/0"]
   }
+  tags = var.common_tags
 }
 
 resource "aws_security_group" "vpc_endpoint_sg" {
@@ -148,6 +146,7 @@ resource "aws_security_group" "vpc_endpoint_sg" {
     protocol        = "tcp"
     security_groups = [aws_security_group.ecs_tasks.id]
   }
+  tags = var.common_tags
 
 }
 
@@ -158,8 +157,8 @@ module "ecs-cluster" {
   source  = "cn-terraform/ecs-cluster/aws"
   version = "1.0.10"
 
-  name = "${var.environment}-${var.name}"
-  #tags              = local.tags
+  name              = "${var.environment}-${var.name}"
+  tags              = var.common_tags
   containerInsights = var.containerInsights
 }
 
