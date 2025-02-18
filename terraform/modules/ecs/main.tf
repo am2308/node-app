@@ -122,7 +122,6 @@ resource "aws_security_group" "ecs_tasks" {
     protocol        = "tcp"
     from_port       = 3000
     to_port         = 3000
-    cidr_blocks     = ["0.0.0.0/0"]
     security_groups = [module.ecs-alb.aws_security_group_lb_access_sg_id]
   }
   egress {
@@ -193,8 +192,10 @@ module "ecs-alb" {
   enable_cross_zone_load_balancing = var.lb_enable_cross_zone_load_balancing
   default_certificate_arn          = data.aws_acm_certificate.node_app_cert.arn
   # Access Control to Application Load Balancer
-  http_ports  = var.lb_http_ports
-  https_ports = var.lb_https_ports
+  http_ports                = var.lb_http_ports
+  https_ports               = var.lb_https_ports
+  http_ingress_cidr_blocks  = var.http_ingress_cidr_blocks
+  https_ingress_cidr_blocks = var.https_ingress_cidr_blocks
 
 }
 

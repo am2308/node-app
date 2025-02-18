@@ -89,6 +89,17 @@ variable "lb_enable_cross_zone_load_balancing" {
   description = "Enable cross zone support for LB"
 }
 
+variable "http_ingress_cidr_blocks" {
+  description = "List of CIDR blocks to allowed to access the Load Balancer through HTTP"
+  type        = list(string)
+  default     = ["0.0.0.0/0"]
+}
+
+variable "https_ingress_cidr_blocks" {
+  description = "List of CIDR blocks to allowed to access the Load Balancer through HTTP"
+  type        = list(string)
+  default     = ["0.0.0.0/0"]
+}
 #------------------------------------------------------------------------------
 # Application Load Balancer Logging
 #------------------------------------------------------------------------------
@@ -158,4 +169,16 @@ variable "common_tags" {
     ManagedBy   = "Terraform"
     CreatedBy   = "GitHub Actions"
   }
+}
+
+#------------------------------------------------------------------------------
+# Route53 Variables
+#------------------------------------------------------------------------------
+
+variable "domain_name" {
+  type = string
+}
+
+variable "hosted_zone_id" {
+  type = string
 }

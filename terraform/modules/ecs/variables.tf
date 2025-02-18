@@ -145,6 +145,18 @@ variable "private_subnets" {
   description = "List of Private Subnets IDs"
 }
 
+variable "http_ingress_cidr_blocks" {
+  description = "List of CIDR blocks to allowed to access the Load Balancer through HTTP"
+  type        = list(string)
+  default     = ["0.0.0.0/0"]
+}
+
+variable "https_ingress_cidr_blocks" {
+  description = "List of CIDR blocks to allowed to access the Load Balancer through HTTP"
+  type        = list(string)
+  default     = ["0.0.0.0/0"]
+}
+
 #------------------------------------------------------------------------------
 # Application Load Balancer Logging
 #------------------------------------------------------------------------------

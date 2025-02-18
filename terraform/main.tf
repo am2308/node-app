@@ -36,6 +36,8 @@ module "ecs" {
   vpc_id                                         = module.vpc.vpc_id
   containerInsights                              = var.containerInsights
   lb_enable_cross_zone_load_balancing            = var.lb_enable_cross_zone_load_balancing
+  http_ingress_cidr_blocks                       = var.http_ingress_cidr_blocks
+  https_ingress_cidr_blocks                      = var.https_ingress_cidr_blocks
   enable_s3_logs                                 = var.enable_s3_logs
   block_s3_bucket_public_access                  = var.block_s3_bucket_public_access
   enable_s3_bucket_server_side_encryption        = var.enable_s3_bucket_server_side_encryption
@@ -47,5 +49,14 @@ module "ecs" {
   secret_arn                                     = var.secret_arn
   kms_key_id                                     = module.kms.kms_key_arn
   common_tags                                    = var.common_tags
+}
+
+module "route53" {
+  source       = "./modules/route53"
+  alb_dns_name = module.ecs.aws_lb_lb_dns_name
+  alb_zone_id  = module.ecs.aws_lb_lb_zone_id
+  domain_name  = var.domain_name
+  common_tags  = var.common_tags
+  zone_id      = var.hosted_zone_id
 }
 
