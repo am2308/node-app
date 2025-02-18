@@ -53,9 +53,6 @@ jobs:
           soft_fail: true  # This option prevents tfsec from failing the pipeline
           format: "json"
           output_file: "tfsec-results.json"
-      
-      - name: See tfsec results
-        run: cat tfsec-results.json
 
       - name: Terraform Plan
         working-directory: terraform
