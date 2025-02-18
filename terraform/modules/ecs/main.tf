@@ -289,7 +289,7 @@ resource "aws_ecs_service" "node-app" {
   }
 
   load_balancer {
-    target_group_arn = module.ecs-alb.aws_lb_target_group_arn
+    target_group_arn = module.ecs-alb.target_group_arn
     container_name   = var.name
     container_port   = 3000
   }
