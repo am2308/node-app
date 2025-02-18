@@ -56,7 +56,6 @@ module "route53" {
   alb_dns_name   = module.ecs.aws_lb_lb_dns_name
   alb_zone_id    = module.ecs.aws_lb_lb_zone_id
   domain_name    = var.domain_name
-  common_tags    = var.common_tags
   hosted_zone_id = var.hosted_zone_id
 }
 

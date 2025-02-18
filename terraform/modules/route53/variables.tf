@@ -17,9 +17,3 @@ variable "alb_zone_id" {
   description = "ALB Zone ID required for Route 53 alias"
   type        = string
 }
-
-
-variable "common_tags" {
-  description = "Common tags"
-  type        = map(string)
-}
