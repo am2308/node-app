@@ -283,7 +283,7 @@ resource "aws_ecs_service" "node-app" {
   enable_execute_command = var.enable_execute_command
 
   network_configuration {
-    security_groups  = aws_security_group.ecs_tasks.id
+    security_groups  = [aws_security_group.ecs_tasks.id]
     subnets          = var.assign_public_ip ? var.public_subnets : var.private_subnets
     assign_public_ip = var.assign_public_ip
   }
