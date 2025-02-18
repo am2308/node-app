@@ -54,7 +54,7 @@ jobs:
           format: "json"
           output_file: "tfsec-results.json"
       
-      -name: See tfsec results
+      - name: See tfsec results
         run: cat tfsec-results.json
 
       - name: Terraform Plan
