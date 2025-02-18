@@ -14,7 +14,7 @@ module "vpc" {
 module "ecs" {
   source = "./modules/ecs"
 
-  env                                            = var.env
+  environment                                    = var.env
   region                                         = var.region
   name                                           = var.name
   project                                        = var.project
@@ -30,8 +30,8 @@ module "ecs" {
   enable_s3_bucket_server_side_encryption        = var.enable_s3_bucket_server_side_encryption
   s3_bucket_server_side_encryption_sse_algorithm = var.s3_bucket_server_side_encryption_sse_algorithm
   s3_bucket_server_side_encryption_key           = var.s3_bucket_server_side_encryption_key
-  public_subnets_ids                             = module.vpc.public_subnets_ids
-  private_subnets_ids                            = module.vpc.private_subnets_ids
+  public_subnets                                 = module.vpc.public_subnets_ids
+  private_subnets                                = module.vpc.private_subnets_ids
   URL                                            = var.URL
   secret_arn                                     = var.secret_arn
 }

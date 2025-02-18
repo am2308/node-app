@@ -1,13 +1,15 @@
-name: Provision EKS
-
+name: "Terraform CI/CD"
 on:
-  workflow_dispatch:
-  push:
+  #push:
+  #  branches:
+  #    - main
+  pull_request:
     branches:
-      - main  # or the branch you want to trigger the workflow from
+      - main
+  workflow_dispatch:
 
 jobs:
-  Deploy-plan:
+  terraform:
     name: "Terraform Plan & Apply"
     runs-on: ubuntu-latest
     permissions:
@@ -21,6 +23,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.3.0
+
       - name: Configure AWS Credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -28,14 +35,9 @@ jobs:
           audience: sts.amazonaws.com
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v2
-        with:
-          terraform_version: 1.3.0
-
-      - name: Run Terraform initialize
+      - name: Terraform Init
         working-directory: terraform
-        run: terraform init --backend-config="vars/test/test.backend.tfvars"
+        run: terraform init -backend-config=vars/test/test.backend.tfvars
 
       - name: Terraform Format
         working-directory: terraform
@@ -45,61 +47,22 @@ jobs:
         working-directory: terraform
         run: terraform validate
 
-      - name: Run Terraform pan
+      #- name: Terraform Security Scan
+      #  uses: aquasecurity/tfsec-action@v1.0.0
+      #  with:
+      #    soft_fail: true  # This option prevents tfsec from failing the pipeline
+      #    format: "json"
+      #    output_file: "tfsec-results.json"
+
+      - name: Terraform Plan
         working-directory: terraform
-        run: terraform plan --var-file="vars/test/test.tfvars" -out=plan-test-${{ github.sha }}.out
+        run: terraform plan -var-file=vars/test/test.tfvars -out=tfplan
 
-      - name: Publish TF plan artifact 
-        uses: actions/upload-artifact@v4
-        with:
-          name: plan-test-${{ github.sha }}.out
-          path: plan-test-${{ github.sha }}.out
-          if-no-files-found: error
+      #- name: Manual Approval
+      #  uses: hmarr/auto-approve-action@v2
+      #  if: github.event_name == 'pull_request'
 
-  Deploy-approval:
-    needs:
-      - Deploy-plan
-    if: github.ref != 'refs/heads/fix'
-    runs-on: ubuntu-20.04
-    environment: approval
-    steps:
-      - name: Approval gate for deploy
-        run: |
-          echo "Wating for approval"
-
-  Deploy:
-    runs-on: ubuntu-latest
-    needs: [Deploy-approval]
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up AWS CLI
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-south-1  # specify your desired region
-
-      - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v2
-        with:
-          terraform_version: 1.1.7
-
-      - name: Run Terraform initialize
-        #working-directory: ./terraform
-        run: terraform init --backend-config="vars/test/test.backend.tfvars"
-
-      - name: Download plan out
-        uses: actions/download-artifact@v3
-        with:
-          name: plan-test-${{ github.sha }}.out 
-
-      #- name: Copy Plan
-      #  run: |
-      #    cp plan-test-${{ github.sha }}.out terraform/
-
-      #- name: Terraform Apply - Dev
-      #  run: |
-      #    terraform apply -auto-approve -input=false -var-file="vars/test/test.tfvars"
-      #  working-directory: terraform/
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/main'
+        working-directory: terraform
+        run: terraform apply -auto-approve tfplan 
