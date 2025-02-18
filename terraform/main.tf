@@ -45,7 +45,7 @@ module "ecs" {
   private_subnets                                = module.vpc.private_subnet_ids
   URL                                            = var.URL
   secret_arn                                     = var.secret_arn
-  kms_key_id                                     = module.kms.kms_key_id
+  kms_key_id                                     = module.kms.kms_key_arn
   common_tags                                    = var.common_tags
 }
 

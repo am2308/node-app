@@ -2,7 +2,7 @@
 # AWS Cloudwatch Logs
 #------------------------------------------------------------------------------
 
-resource "aws_cloudwatch_log_group" "lambda_log_group" {
+resource "aws_cloudwatch_log_group" "ecs_log_group" {
   name              = "/ecs/service/${var.environment}-${var.name}"
   retention_in_days = 30
   kms_key_id        = var.kms_key_id
@@ -227,7 +227,7 @@ module "td" {
 
   name_prefix                             = var.project
   container_name                          = var.name
-  container_image                         = "aws_ecr_repository.main.repository_url:${var.image_version}"
+  container_image                         = "${aws_ecr_repository.main.repository_url}:${var.image_version}"
   container_memory                        = var.container_memory
   container_memory_reservation            = var.container_memory_reservation
   container_cpu                           = var.container_cpu
