@@ -34,7 +34,7 @@ jobs:
           terraform_version: 1.1.7
 
       - name: Run Terraform initialize
-        #working-directory: ./terraform
+        working-directory: terraform
         run: terraform init --backend-config="vars/test/test.backend.tfvars"
 
       - name: Terraform Format
@@ -46,7 +46,7 @@ jobs:
         run: terraform validate
 
       - name: Run Terraform pan
-        #working-directory: ./terraform
+        working-directory: terraform
         run: terraform plan --var-file="vars/test/test.tfvars" -out=plan-test-${{ github.sha }}.out
 
       - name: Publish TF plan artifact 
