@@ -276,7 +276,7 @@ module "td" {
 
 resource "aws_ecs_service" "node-app" {
   name                   = "${var.environment}-${var.name}"
-  cluster                = module.ecs-cluster.cluster_id
+  cluster                = module.ecs-cluster.aws_ecs_cluster_cluster_id
   task_definition        = module.td.aws_ecs_task_definition_td_arn
   desired_count          = 1
   launch_type            = "FARGATE"
@@ -289,7 +289,7 @@ resource "aws_ecs_service" "node-app" {
   }
 
   load_balancer {
-    target_group_arn = module.ecs-alb.target_group_arn
+    target_group_arn = module.ecs-alb.lb_https_tgs_arns[0]
     container_name   = var.name
     container_port   = 3000
   }
