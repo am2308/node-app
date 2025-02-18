@@ -8,9 +8,7 @@ This repository automates the **provisioning of AWS infrastructure** and **deplo
 - **GitHub Actions Workflows**: Automates infrastructure provisioning, application deployment, and resource teardown.  
 - **Terraform Modules**: Located in the `terraform/` directory, which includes:  
   - **VPC Module** → Creates VPC, subnets, and networking resources.  
-  - **ECS Module** → Creates ECS Cluster, ECS Service, and Task Definitions.  
-  - **ECR Module** → Creates an ECR repository to store Docker images.  
-  - **ALB Module** → Sets up an Application Load Balancer (ALB).  
+  - **ECS Module** → Creates ECS Cluster, ECS Service, ALB, ECR and Task Definitions.  
   - **Route 53 Module** → Creates domain alias records.  
   - **KMS Module** → Manages encryption keys for security.  
 
@@ -32,8 +30,6 @@ This repository requires the following **GitHub Secrets** for deployment:
 | `AWS_REGION`     | AWS region (e.g., `us-east-1`) |
 | `ECR_REGISTRY`   | Amazon ECR Registry URL |
 | `ECR_REPOSITORY` | Amazon ECR Repository Name |
-| `TF_STATE_BUCKET` | S3 bucket for Terraform backend storage |
-| `TF_STATE_DYNAMODB_TABLE` | DynamoDB table for Terraform state locking |
 
 ### **🔹 How to Add GitHub Secrets**
 1. Go to **GitHub Repository → Settings → Secrets and Variables → Actions**  
@@ -44,9 +40,21 @@ This repository requires the following **GitHub Secrets** for deployment:
 
 ## **📌 How to Deploy the Infrastructure and Application**  
 
-The deployment process is **fully automated** using **GitHub Actions**.  
+The deployment process is **fully automated** using **GitHub Actions**. 
 
-### **1️⃣ Fork and Clone the Repository**  
+### **1️⃣ Trigger Infrastructure Provisioning**
+The GitHub Actions workflow automatically provisions AWS resources (ECS, ECR, ALB, etc.) when you push code to main.
+Alternatively, manually trigger it:
+Go to **GitHub → Actions → Terraform CI/CD**
+Click **Run Workflow**
+
+### **2️⃣ Trigger Application Deployment**
+The GitHub Actions workflow automatically deploy the application to ECS cluster with all security scanning incorporated as part of DevSecops.
+Alternatively, manually trigger it:
+Go to **GitHub → Actions → Secure Build & Deploy to AWS ECSD**
+Click **Run Workflow**
+
+### **Fork and Clone the Repository**  
 ```sh
 git clone https://github.com/YOUR_GITHUB_USERNAME/node-app.git
 cd node-app
