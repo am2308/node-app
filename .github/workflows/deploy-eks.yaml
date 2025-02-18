@@ -8,7 +8,15 @@ on:
 
 jobs:
   Deploy-plan:
+    name: "Terraform Plan & Apply"
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+
+    env:
+      AWS_REGION: "ap-south-1"
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -18,7 +26,7 @@ jobs:
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           audience: sts.amazonaws.com
-          aws-region: ${{ secrets.AWS_REGION }}
+          aws-region: ${{ env.AWS_REGION }}
 
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v2
