@@ -66,7 +66,7 @@ variable "log_group_retention_in_days" {
 variable "ecr_repository" {
   type        = string
   description = "A list of ECR repositories to create"
-  default     = "hire-node-app"
+  default     = "node-app"
 }
 
 #------------------------------------------------------------------------------
