@@ -39,5 +39,5 @@ variable "common_tags" {
 
 variable "s3_bucket_arn" {
   description = "log bucket arn"
-  type        = map(string)
+  type        = string
 }
