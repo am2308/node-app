@@ -155,7 +155,7 @@ variable "https_ingress_cidr_blocks" {
 variable "enable_s3_logs" {
   description = "(Optional) If true, all resources to send LB logs to S3 will be created"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "block_s3_bucket_public_access" {

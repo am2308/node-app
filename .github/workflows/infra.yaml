@@ -53,10 +53,6 @@ jobs:
           soft_fail: true  # This option prevents tfsec from failing the pipeline
           format: "json"
           output_file: "tfsec-results.json"
-      
-      - name: Apply target bucket
-        working-directory: terraform
-        run: terraform apply -auto-approve -target=module.s3
 
       - name: Terraform Plan
         working-directory: terraform
