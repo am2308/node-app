@@ -92,14 +92,12 @@ resource "aws_security_group" "fargate_container_sg" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = var.remote_cidr_blocks
   }
   ingress {
-    description     = "Ingress from other containers in the same security group"
-    from_port       = 0
-    to_port         = 0
-    protocol        = "-1"
-    security_groups = [aws_security_group.fargate_container_sg.id]
+    description = "Ingress from other containers in the same security group"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
   }
 
   egress {

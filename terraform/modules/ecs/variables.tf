@@ -185,6 +185,7 @@ variable "s3_bucket_server_side_encryption_key" {
 variable "log_bucket_id" {
   description = "The ID of the S3 bucket to store the logs"
   type        = string
+  default     = ""
 }
 
 variable "access_logs_prefix" {
