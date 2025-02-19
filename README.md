@@ -166,3 +166,8 @@ Click **Run Workflow**
 ### Why GitHub Actions?
 - **Integration with GitHub:** Since the code is hosted on GitHub, using GitHub Actions provides a seamless CI/CD experience.
 - **Flexibility:** GitHub Actions supports a wide range of workflows and integrations.
+
+### Dealing with External Terraform Modules
+- When using external terraform modules it becomes really important to consider facts like Modules may enforce rigid configurations.
+- Terraform cannot resolve dependencies inside modules during terraform plan.
+- Debugging an abstracted module is harder than debugging native resources.

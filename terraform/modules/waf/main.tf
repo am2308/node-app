@@ -3,7 +3,6 @@ resource "aws_wafv2_web_acl" "waf_acl" {
   name        = var.waf_name
   description = "WAF for ALB"
   scope       = "REGIONAL" # Use "CLOUDFRONT" for CloudFront WAF
-
   default_action {
     allow {}
   }
@@ -14,21 +13,13 @@ resource "aws_wafv2_web_acl" "waf_acl" {
     sampled_requests_enabled   = true
   }
 
-  # Ensure a valid rule is always present
   dynamic "rule" {
-    for_each = length(var.managed_rule_set) > 0 ? var.managed_rule_set : [
-      {
-        name        = "AWSManagedRulesCommonRuleSet"
-        vendor_name = "AWS"
-        priority    = 1
-      }
-    ]
-
+    for_each = var.managed_rule_set
     content {
       name     = rule.value.name
       priority = rule.value.priority
       action {
-        block {} # Default action blocks traffic if triggered
+        block {} # You can change this to "count" or "allow" if needed
       }
       statement {
         managed_rule_group_statement {
@@ -43,9 +34,9 @@ resource "aws_wafv2_web_acl" "waf_acl" {
       }
     }
   }
-
   tags = var.common_tags
 }
+
 
 
 
