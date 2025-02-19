@@ -107,7 +107,7 @@ variable "https_ingress_cidr_blocks" {
 variable "enable_s3_logs" {
   description = "(Optional) If true, all resources to send LB logs to S3 will be created"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "block_s3_bucket_public_access" {
@@ -181,4 +181,12 @@ variable "domain_name" {
 
 variable "hosted_zone_id" {
   type = string
+}
+
+#------------------------------------------------------------------------------
+# S3 Variables
+#------------------------------------------------------------------------------
+variable "log_bucket_name" {
+  description = "The name of the S3 bucket for storing VPC Flow Logs & ALB Access Logs"
+  type        = string
 }

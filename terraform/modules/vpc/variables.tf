@@ -36,3 +36,8 @@ variable "common_tags" {
   description = "Common tags"
   type        = map(string)
 }
+
+variable "s3_bucket_arn" {
+  description = "log bucket arn"
+  type        = map(string)
+}

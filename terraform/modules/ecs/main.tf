@@ -86,24 +86,24 @@ resource "aws_security_group" "fargate_container_sg" {
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = var.remote_cidr_blocks
-
   }
   ingress {
     description = "Ingress from the private ALB"
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-
+    cidr_blocks = var.private_cidr_blocks
   }
   ingress {
-    description = "Ingress from other containers in the same security group"
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-
+    description     = "Ingress from other containers in the same security group"
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    security_groups = [aws_security_group.fargate_container_sg.id]
   }
 
   egress {
+    description = "Allow all outbound traffic"
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
@@ -119,12 +119,14 @@ resource "aws_security_group" "ecs_tasks" {
   vpc_id      = var.vpc_id
 
   ingress {
+    description     = "Allow inbound traffic from ALB on port 3000"
     protocol        = "tcp"
     from_port       = 3000
     to_port         = 3000
     security_groups = [module.ecs-alb.aws_security_group_lb_access_sg_id]
   }
   egress {
+    description = "Allow all outbound traffic"
     protocol    = "-1"
     from_port   = 0
     to_port     = 0
@@ -134,7 +136,7 @@ resource "aws_security_group" "ecs_tasks" {
 }
 
 resource "aws_security_group" "vpc_endpoint_sg" {
-  name        = "allow_trafic from ECS"
+  name        = "allow_traffic_from_ECS"
   description = "Allow inbound traffic from ECS"
   vpc_id      = var.vpc_id
 
@@ -145,8 +147,14 @@ resource "aws_security_group" "vpc_endpoint_sg" {
     protocol        = "tcp"
     security_groups = [aws_security_group.ecs_tasks.id]
   }
+  egress {
+    description = "Allow all outbound traffic"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
   tags = var.common_tags
-
 }
 
 #------------------------------------------------------------------------------
@@ -181,6 +189,8 @@ module "ecs-alb" {
 
   # Application Load Balancer Logs
   enable_s3_logs                                 = var.enable_s3_logs
+  log_bucket_id                                  = var.log_bucket_id
+  access_logs_prefix                             = var.access_logs_prefix
   block_s3_bucket_public_access                  = var.block_s3_bucket_public_access
   enable_s3_bucket_server_side_encryption        = var.enable_s3_bucket_server_side_encryption
   s3_bucket_server_side_encryption_sse_algorithm = var.s3_bucket_server_side_encryption_sse_algorithm

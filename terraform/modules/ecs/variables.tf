@@ -1,3 +1,6 @@
+#------------------------------------------------------------------------------
+# Environment Specific Variables logs
+#------------------------------------------------------------------------------
 variable "name" {
   type = string
 }
@@ -106,18 +109,6 @@ variable "lb_https_ports" {
   }
 }
 
-#variable "lb_http_ports" {
-#  description = "Map containing objects to define listeners behaviour based on type field. If type field is `forward`, include listener_port and the target_group_port. For `redirect` type, include listener port, host, path, port, protocol, query and status_code. For `fixed-response`, include listener_port, content_type, message_body and status_code"
-#  type        = map(any)
-#  default = {
-#    default = {
-#      type              = "redirect"
-#      listener_port     = 80
-#      target_group_port = 80
-#    }
-#  }
-#}
-
 variable "lb_http_ports" {
   description = "Map containing objects to define listeners behaviour based on type field. If type field is `forward`, include listener_port and the target_group_port. For `redirect` type, include listener port, host, path, port, protocol, query and status_code. For `fixed-response`, include listener_port, content_type, message_body and status_code"
   type        = map(any)
@@ -164,7 +155,7 @@ variable "https_ingress_cidr_blocks" {
 variable "enable_s3_logs" {
   description = "(Optional) If true, all resources to send LB logs to S3 will be created"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "block_s3_bucket_public_access" {
@@ -189,6 +180,17 @@ variable "s3_bucket_server_side_encryption_key" {
   description = "(Optional) The AWS KMS master key ID used for the SSE-KMS encryption. This can only be used when you set the value of sse_algorithm as aws:kms. The default aws/s3 AWS KMS master key is used if this element is absent while the sse_algorithm is aws:kms."
   type        = string
   default     = null
+}
+
+variable "log_bucket_id" {
+  description = "The ID of the S3 bucket to store the logs"
+  type        = string
+}
+
+variable "access_logs_prefix" {
+  description = "The prefix to be used for the access logs"
+  type        = string
+  default     = "alb-logs"
 }
 
 #------------------------------------------------------------------------------
