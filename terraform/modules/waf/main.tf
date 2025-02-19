@@ -13,14 +13,19 @@ resource "aws_wafv2_web_acl" "waf_acl" {
     sampled_requests_enabled   = true
   }
 
-  # This dynamic block iterates over the managed_rule_set variable to create rules
   dynamic "rule" {
-    for_each = var.managed_rule_set
+    for_each = length(var.managed_rule_set) > 0 ? var.managed_rule_set : tomap({
+      "default" = {
+        name        = "AWS-AWSManagedRulesCommonRuleSet"
+        priority    = 1
+        vendor_name = "AWS"
+      }
+    })
     content {
       name     = rule.value.name
       priority = rule.value.priority
       action {
-        block {} # You can change this to "count" or "allow" if needed
+        block {}
       }
       statement {
         managed_rule_group_statement {
@@ -35,8 +40,10 @@ resource "aws_wafv2_web_acl" "waf_acl" {
       }
     }
   }
+
   tags = var.common_tags
 }
+
 
 # This resource defines an AWS WAFv2 Web ACL association with an ALB
 resource "aws_wafv2_web_acl_association" "waf_alb_association" {
