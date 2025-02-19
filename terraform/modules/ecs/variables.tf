@@ -196,7 +196,7 @@ variable "access_logs_prefix" {
 
 variable "waf_acl_arn" {
   type    = string
-  deafult = ""
+  default = ""
 }
 
 #------------------------------------------------------------------------------
