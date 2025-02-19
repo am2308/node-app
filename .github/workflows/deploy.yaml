@@ -53,6 +53,13 @@ jobs:
           format: table
           output: trivy-results.txt
 
+      - name: Install SonarQube Scanner
+        run: |
+          curl -L -o sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
+          unzip sonar-scanner.zip
+          export PATH=$PATH:$(pwd)/sonar-scanner-5.0.1.3006-linux/bin
+          echo "PATH=$PATH" >> $GITHUB_ENV
+
       - name: SonarQube Analysis
         run: |
           sonar-scanner \

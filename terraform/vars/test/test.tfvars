@@ -15,3 +15,4 @@ hosted_zone_id            = "Z01826962DLG7GTIHZO1Q"
 domain_name               = "node-app.demoprojectbc1.com"
 log_bucket_name           = "node-app-network-logs"
 enable_s3_logs            = false
+waf_name                  = "node-app-waf"

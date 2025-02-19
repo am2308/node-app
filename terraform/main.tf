@@ -46,6 +46,7 @@ module "ecs" {
   https_ingress_cidr_blocks                      = var.https_ingress_cidr_blocks
   enable_s3_logs                                 = var.enable_s3_logs
   log_bucket_id                                  = module.s3.log_bucket_id
+  waf_acl_arn                                    = module.waf.waf_acl_arn
   block_s3_bucket_public_access                  = var.block_s3_bucket_public_access
   enable_s3_bucket_server_side_encryption        = var.enable_s3_bucket_server_side_encryption
   s3_bucket_server_side_encryption_sse_algorithm = var.s3_bucket_server_side_encryption_sse_algorithm
@@ -75,3 +76,10 @@ module "s3" {
   aws_region      = var.region
 }
 
+#WAF Module
+module "waf" {
+  source      = "./modules/waf"
+  waf_name    = var.waf_name
+  common_tags = var.common_tags
+  aws_region  = var.region
+}

@@ -194,6 +194,11 @@ variable "access_logs_prefix" {
   default     = "alb-logs"
 }
 
+variable "waf_acl_arn" {
+  type    = string
+  deafult = ""
+}
+
 #------------------------------------------------------------------------------
 # Task Definition Variables
 #------------------------------------------------------------------------------

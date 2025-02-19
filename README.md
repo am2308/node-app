@@ -100,15 +100,15 @@ The CI/CD pipeline is built using GitHub Actions and is triggered on every push 
     - Runs ESLint to ensure code quality.
     - Runs unit tests using `npm test`.
 
+- **Scan for Vulnerabilities:**
+    - Uses Trivy to scan the application code filesystem for vulnerabilities.
+    - Uses OWASP Dependency Check used for security scanning of the third party  dependencies used in application as part of Software Composition Analysis process.
+
 - **Build Docker Image:**
     - Builds the Docker image for the Node.js application.
 
-- **Scan for Vulnerabilities:**
-    - Uses Trivy to scan the Docker image for vulnerabilities.
-    - Uses OWASP ZAP for security scanning.
-
 - **Push to ECR:**
-    - Pushes the Docker image to the Elastic Container Registry (ECR).
+    - Pushes the Docker image to the Elastic Container Registry (ECR) with scan on push enable.
 
 - **Deploy to ECS:**
     - Updates the ECS service with the new Docker image.
@@ -139,14 +139,17 @@ Click **Run Workflow**
 ### Secrets Management
 - Secrets such as `AWS_ROLE_ARN`, `AWS_REGION`, `ECR_REGISTRY`, `ECR_REPOSITORY`, `SONARQUBE_URL` and `SONARQUBE_TOKEN` are stored in GitHub Secrets and are accessed during the CI/CD pipeline execution.
 - Terraform uses AWS IAM roles with least privilege access to ensure security.
+- Logging being enalbed at infra level like vpc flow logs, alb access logs etc. and at application level as well.
 
 ### Vulnerability Scanning
-- **Trivy:** Used to scan Docker images for vulnerabilities.
-- **OWASP ZAP:** Used for security scanning of the application.
+- **Trivy:** Used to scan Filesystem scanning of application code and could be extended at conatiner level.
+- **OWASP Dependency Check:** Used for security scanning of the third party  dependencies used in application as part of Software Composition Analysis process.
+- **Image Scanning:** Used ECR scan on push option to scan images while pushing to ECR repository
 - **Tfsec:** Used to scan Terraform code for security misconfigurations.
 
 ### Networking Security
-- The VPC is configured with public and private subnets to ensure that the application is not directly exposed to the internet.
+- Enabled WAF at Alb level to secure application from DDOS attack, SQL Injection, BruteForce Attack etc.
+- The VPC is configured with public and private subnets to ensure that the application is not directly exposed to the internet
 - Security groups are tightly configured to allow only necessary traffic.
 
 ## Trade-offs & Decisions

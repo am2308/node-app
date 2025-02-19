@@ -190,3 +190,13 @@ variable "log_bucket_name" {
   description = "The name of the S3 bucket for storing VPC Flow Logs & ALB Access Logs"
   type        = string
 }
+
+#------------------------------------------------------------------------------
+# Waf Variables
+#------------------------------------------------------------------------------
+
+variable "waf_name" {
+  description = "Name of the WAF WebACL"
+  type        = string
+  default     = "my-waf-webacl"
+}
