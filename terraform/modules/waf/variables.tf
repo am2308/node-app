@@ -33,7 +33,7 @@ variable "managed_rule_set" {
       priority    = 2
     },
     {
-      name        = "AWSManagedRulesSQLInjectionRuleSet"
+      name        = "AWSManagedRulesSQLiRuleSet"
       vendor_name = "AWS"
       priority    = 3
     },
