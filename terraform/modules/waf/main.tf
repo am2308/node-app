@@ -3,6 +3,7 @@ resource "aws_wafv2_web_acl" "waf_acl" {
   name        = var.waf_name
   description = "WAF for ALB"
   scope       = "REGIONAL" # Use "CLOUDFRONT" for CloudFront WAF
+
   default_action {
     allow {}
   }
@@ -13,19 +14,21 @@ resource "aws_wafv2_web_acl" "waf_acl" {
     sampled_requests_enabled   = true
   }
 
+  # Ensure a valid rule is always present
   dynamic "rule" {
-    for_each = length(var.managed_rule_set) > 0 ? var.managed_rule_set : tomap({
-      "default" = {
-        name        = "AWS-AWSManagedRulesCommonRuleSet"
-        priority    = 1
+    for_each = length(var.managed_rule_set) > 0 ? var.managed_rule_set : [
+      {
+        name        = "AWSManagedRulesCommonRuleSet"
         vendor_name = "AWS"
+        priority    = 1
       }
-    })
+    ]
+
     content {
       name     = rule.value.name
       priority = rule.value.priority
       action {
-        block {}
+        block {} # Default action blocks traffic if triggered
       }
       statement {
         managed_rule_group_statement {
@@ -43,6 +46,7 @@ resource "aws_wafv2_web_acl" "waf_acl" {
 
   tags = var.common_tags
 }
+
 
 
 # This resource defines an AWS WAFv2 Web ACL association with an ALB
