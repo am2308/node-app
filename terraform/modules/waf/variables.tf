@@ -9,6 +9,11 @@ variable "aws_region" {
   type        = string
 }
 
+variable "alb_arn" {
+  description = "ALB to associate with waf"
+  type        = string
+}
+
 variable "managed_rule_set" {
   description = "List of AWS managed rule groups"
   type = list(object({

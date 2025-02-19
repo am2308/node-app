@@ -193,7 +193,6 @@ module "ecs-alb" {
   enable_s3_bucket_server_side_encryption        = var.enable_s3_bucket_server_side_encryption
   s3_bucket_server_side_encryption_sse_algorithm = var.s3_bucket_server_side_encryption_sse_algorithm
   s3_bucket_server_side_encryption_key           = var.s3_bucket_server_side_encryption_key
-  waf_web_acl_arn                                = var.waf_acl_arn
 
   # Application Load Balancer
   private_subnets                  = var.private_subnets

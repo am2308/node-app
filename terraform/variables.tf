@@ -200,3 +200,9 @@ variable "waf_name" {
   type        = string
   default     = "my-waf-webacl"
 }
+
+variable "enable_waf" {
+  description = "Enable WAF if true"
+  type        = bool
+  default     = false
+}

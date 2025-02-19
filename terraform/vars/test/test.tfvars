@@ -16,3 +16,4 @@ domain_name               = "node-app.demoprojectbc1.com"
 log_bucket_name           = "node-app-network-logs"
 enable_s3_logs            = false
 waf_name                  = "node-app-waf"
+enable_waf                = true

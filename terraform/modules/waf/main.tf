@@ -37,3 +37,9 @@ resource "aws_wafv2_web_acl" "waf_acl" {
   }
   tags = var.common_tags
 }
+
+# This resource defines an AWS WAFv2 Web ACL association with an ALB
+resource "aws_wafv2_web_acl_association" "waf_alb_association" {
+  resource_arn = var.alb_arn
+  web_acl_arn  = aws_wafv2_web_acl.waf_acl.arn
+}
