@@ -1,7 +1,7 @@
-Node.js Application with Terraform, Docker, and CI/CD Pipeline
-## Node.js Application with Terraform, Docker, and CI/CD Pipeline
+Node.js Application with Terraform, Containerization, and CI/CD Pipeline
+## Node.js Application with Terraform, Containerization(ECS), and CI/CD Pipeline
 
-This repository contains a Node.js application deployed using Docker, Terraform, and a CI/CD pipeline. The infrastructure is provisioned using Terraform, which includes ECS, ECR, ALB, VPC, Route53, and KMS. The CI/CD pipeline is built using GitHub Actions to automate the build, test, and deployment process.
+This repository contains a Node.js application deployed using Docker(ECS), Terraform, and a CI/CD pipeline. The infrastructure is provisioned using Terraform, which includes ECS, ECR, ALB, VPC, Route53, and KMS. The CI/CD pipeline is built using GitHub Actions to automate the build, test, and deployment process.
 
 This README will guide you through the steps to set up the application locally, provision the infrastructure, and understand the CI/CD pipeline flow. Additionally, it covers security considerations and trade-offs made during the design process.
 
@@ -116,7 +116,7 @@ The CI/CD pipeline is built using GitHub Actions and is triggered on every push 
 - **Destroy Infrastructure (Optional):**
     - A separate workflow is provided to destroy the infrastructure using Terraform.
 
-## **📌 How to Deploy the Infrastructure and Application**
+## How to Deploy the Infrastructure and Application
 The deployment process is **fully automated** using **GitHub Actions**. 
 
 ### Triggering the Pipeline
