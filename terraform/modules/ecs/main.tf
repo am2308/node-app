@@ -187,7 +187,7 @@ module "ecs-alb" {
 
   # Application Load Balancer Logs
   enable_s3_logs                                 = var.enable_s3_logs
-  log_bucket_id                                  = var.log_bucket_id
+  #log_bucket_id                                  = var.log_bucket_id
   access_logs_prefix                             = var.access_logs_prefix
   block_s3_bucket_public_access                  = var.block_s3_bucket_public_access
   enable_s3_bucket_server_side_encryption        = var.enable_s3_bucket_server_side_encryption
