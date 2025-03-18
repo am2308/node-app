@@ -1,4 +1,4 @@
-name: Secure Build & Deploy to AWS ECS
+name: Scan on PR
 
 on:
   push:
