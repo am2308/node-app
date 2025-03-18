@@ -17,7 +17,7 @@ jobs:
   security_scan:
     name: Security Scanning
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'  # Run only on PRs
+    if: github.event_name == 'pull_request'  # Run only on PRs raise
 
     steps:
       - name: Checkout Code
