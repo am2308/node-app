@@ -88,7 +88,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Configure AWS Credentials (OIDC)
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           audience: sts.amazonaws.com
@@ -115,7 +115,7 @@ jobs:
 
     steps:
       - name: Configure AWS Credentials (OIDC)
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           audience: sts.amazonaws.com
