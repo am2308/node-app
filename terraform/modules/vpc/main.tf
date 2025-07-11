@@ -86,14 +86,15 @@ resource "aws_route_table_association" "private-route-2-association" {
   subnet_id      = aws_subnet.private-subnet-2.id
 }
 
-# Allocate an Elastic IP for the NAT Gateway
-resource "aws_eip" "nat-gw-eip" {
-  vpc = true
+# Create a NAT Gateway in public subnet 1
+resource "aws_nat_gateway" "nat-gw" {
+  allocation_id = aws_eip.nat-gw-eip.id
+  subnet_id     = aws_subnet.public-subnet-1.id
 
   tags = var.common_tags
 
   depends_on = [
-    aws_internet_gateway.internet-gateway
+    aws_eip.nat-gw-eip
   ]
 }
 
