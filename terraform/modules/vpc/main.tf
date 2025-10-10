@@ -87,16 +87,16 @@ resource "aws_route_table_association" "private-route-2-association" {
 }
 
 # Create a NAT Gateway in public subnet 1
-resource "aws_nat_gateway" "nat-gw" {
-  allocation_id = aws_eip.nat-gw-eip.id
-  subnet_id     = aws_subnet.public-subnet-1.id
+#resource "aws_nat_gateway" "nat-gw" {
+#  allocation_id = aws_eip.nat-gw-eip.id
+#  subnet_id     = aws_subnet.public-subnet-1.id
 
-  tags = var.common_tags
+#  tags = var.common_tags
 
-  depends_on = [
-    aws_eip.nat-gw-eip
-  ]
-}
+#  depends_on = [
+#  ]
+#    aws_eip.nat-gw-eip
+#}
 
 # Create a NAT Gateway in public subnet 1
 resource "aws_nat_gateway" "nat-gw" {
